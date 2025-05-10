@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Grayscale - Start Bootstrap Theme</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version) -->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Core theme CSS (includes Bootstrap) -->
+    <link href="styles.css" rel="stylesheet" />
+    <style>
+        /* Active link style */
+        .nav-item .nav-link.active {
+            color: #fff; /* Korostaa aktiivista linkkiä */
+            background-color: #007bff; /* Esimerkiksi sininen taustaväri aktiiviselle linkille */
+        }
+
+        th {
+            color: white; /* Muuttaa taulukon otsikoiden väri valkoiseksi */
+        }
+
+        .no-data-msg {
+            color: white; /* Muuttaa "No workout data available" -viestin väri valkoiseksi */
+        }
+
+        /* Aktivoi käyttäjälinkki */
+        .active-link {
+            color: #f0f0f0; /* Voit valita värin, joka erottuu */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body id="page-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="login.html">Home</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="hrv.html" id="hrvLink">HRV</a></li>
+                    <li class="nav-item"><a class="nav-link" href="training.html" id="trainingLink">Training</a></li>
+                    <li class="nav-item"><a class="nav-link" href="profile.html" id="profileLink">User</a></li>
+                    <li class="nav-item"><a id="logoutButton" class="nav-link" href="#">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Masthead -->
+    <header class="masthead">
+        <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+            <div class="d-flex justify-content-center">
+                <div class="text-center">
+                    <header class="mt-4">
+                        <div class="container">
+                            <h1>Recent 10 Workouts</h1>
+                        </div>
+                    </header>
+                    <main class="mt-4">
+                        <div class="container">
+                            <section>
+                                <button id="fetchDataBtn" class="btn btn-primary">Recent Workouts</button>
+                            </section>
+                            <section>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>User ID</th>
+                                            <th>Exercise</th>
+                                            <th>Reps</th>
+                                            <th>Weight (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody"></tbody>
+                                </table>
+                                <p class="no-data-msg">No workout data available.</p>
+                            </section>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile JavaScript -->
+    <script src="profile.js" type="module"></script>
+
+    <!-- JavaScript for active link indication -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const profileLink = document.getElementById('profileLink');
+            // Check if the current page is the profile page
+            if (window.location.pathname.includes('profile.html')) {
+                profileLink.classList.add('active-link');
+            }
+
+            // Adding the active link to the navigation dynamically
+            const currentUrl = window.location.href;
+            if (currentUrl.includes('hrv.html')) {
+                document.getElementById('hrvLink').classList.add('active');
+            } else if (currentUrl.includes('training.html')) {
+                document.getElementById('trainingLink').classList.add('active');
+            } else if (currentUrl.includes('profile.html')) {
+                document.getElementById('profileLink').classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

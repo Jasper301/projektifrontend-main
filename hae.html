@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viimeiset 10 treeniä</title>
+</head>
+
+<body>
+    <h1>Viimeiset 10 treeniä</h1>
+
+    <!-- Add a button to fetch the data -->
+    <button id="fetchDataBtn">Hae viimeiset 10 treeniä</button>
+
+    <!-- Taulukko, johon treenit lisätään -->
+    <table>
+        <thead>
+            <tr>
+                <th>User id</th>
+                <th>Exercise</th>
+                <th>reps</th>
+                <th>Weight</th>
+            </tr>
+        </thead>
+        <tbody class="tbody"></tbody>
+    </table>
+
+    <!-- JavaScript -->
+    <script>
+        // Funktion alustus fetchData:n määrittämiseksi
+        async function fetchData(url, options) {
+            const response = await fetch(url, options);
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+            return await response.json();
+        }
+
+        // Funktion alustus getUsers:n määrittämiseksi
+        async function getUsers() {
+            console.log('Haetaan kaikki käyttäjät ja heidän viimeiset 10 treeniään');
+            const url = 'http://127.0.0.1:3000/api/entries';
+            let token = localStorage.getItem('token');
+            const options = {
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer: ' + token,
+                },
+            };
+
+            fetchData(url, options).then((exercises) => {
+                const data = exercises.map((exercise) => ({
+                    user_id: exercise.uid,
+                    name: exercise.NAME,
+                    reps: exercise.REPS,
+                    weight: exercise.Weight,
+                }));
+                const lastTenExercises = data.slice(0,10);
+                createTable(lastTenExercises);
+            });
+        };
+
+        // Funktion alustus createTable:n määrittämiseksi
+        function createTable(data) {
+            console.log(data);
+
+            // Etsitään tbody elementti
+            const tbody = document.querySelector('.tbody');
+            tbody.innerHTML = '';
+
+            // Loopissa luodaan jokaiselle tietoriville oikeat elementit
+            data.forEach((exercise) => {
+                // Luodaan TR elementti kullekin käyttäjälle
+                const tr = document.createElement('tr');
+
+                // Luodaan solut käyttäjätiedoille
+                const td1 = document.createElement('td');
+                td1.innerText = exercise.user_id
+
+                const td2 = document.createElement('td');
+                td2.innerText = exercise.name;
+
+                // Lisätään käyttäjätiedot taulukkoon
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+
+                // Jos käyttäjällä on treenejä, lisätään ne taulukkoon
+                if (exercise) {
+                    const tdReps = document.createElement('td');
+                    tdReps.innerText = exercise.reps;
+                    tr.appendChild(tdReps);
+
+                    const tdWeight = document.createElement('td');
+                    tdWeight.innerText = exercise.weight;
+                    tr.appendChild(tdWeight);
+                } else {
+                    // Jos käyttäjällä ei ole treenejä, näytetään "Ei treenejä" -teksti
+                    const td3 = document.createElement('td');
+                    td3.innerText = 'Ei treenejä';
+                    tr.appendChild(td3);
+                }
+
+                // Lisätään rivi taulukkoon
+                tbody.appendChild(tr);
+            });
+        }
+
+
+        // Lisätään tapahtumankäsittelijä napille
+        document.getElementById('fetchDataBtn').addEventListener('click', getUsers);
+    </script>
+</body>
+
+</html>
